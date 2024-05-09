@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +15,18 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/home', function () {
     return view('home');
-    })->middleware('auth');
+})->middleware('auth');
 
-Route::get('/profile', function () {
-    return view('profile');
-    })->middleware('auth');
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
+Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store')->middleware('auth');
 
 Route::get('/ch', function () {
     return view('catatanharian');
-    })->middleware('auth');
+})->middleware('auth');
 
-    Route::get('/logout', function () {
-        return view('login');
-        })->middleware('auth');
+Route::get('/logout', function () {
+    // Lakukan proses logout di sini
+    // Contoh: hapus sesi, lalu arahkan kembali ke halaman login
+    auth()->logout();
+    return redirect('/login');
+})->name('logout')->middleware('auth');
