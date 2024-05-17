@@ -20,6 +20,7 @@ Route::group([
     $router->resource('lemdik', LemdikController::class);
     $router->resource('peserta', PesertaController::class);
     $router->resource('catatan', CatatanController::class);
+    //$router::resource('savech', SaveCHController::class);
    // $router->resource('posts', PostController::class);
 
     $router->get('api/bidang_id', 'PesertaController@bidang_id');

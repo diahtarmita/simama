@@ -9,6 +9,7 @@ use App\Models\Bidang;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
 class CatatanController extends AdminController
@@ -88,5 +89,12 @@ class CatatanController extends AdminController
         $form->checkbox('disetujui', __('Disetujui'))->options(['1' => 'Setuju'])->default('1');
 
         return $form;
+
+
+    }
+    public function create(Content $content)
+    {
+        $ch = Catatan::all();
+        return view('catatan.create', compact('opd'));
     }
 }

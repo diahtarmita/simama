@@ -3,6 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
+
+
+
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +29,13 @@ Route::get('/home', function () {
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
 Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store')->middleware('auth');
 
+
 Route::get('/ch', function () {
     return view('catatanharian');
+})->middleware('auth');
+
+Route::get('/profile', function () {
+    return view('profile');
 })->middleware('auth');
 
 Route::get('/logout', function () {
