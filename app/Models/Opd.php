@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Opd extends Model
 {
     use HasFactory;
+
     protected $table = "opd";
     public $timestamps = false;
 
@@ -15,4 +16,5 @@ class Opd extends Model
     {
         return $this->hasMany(Bidang::class,'opd_id'); //OPD memiliki banyak bidang dipanggil berdasar opd_id
     }
+
 }

@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bidang;
+use App\Models\Lemdik;
+use App\Models\Opd;
+use App\Models\Peserta;
 use Illuminate\Http\Request;
-use App\Models\Profil; // Menggunakan namespace yang sesuai dengan model
-use Symfony\Component\HttpKernel\Profiler\Profiler;
+use App\Models\Profile; // Menggunakan namespace yang sesuai dengan model
+use Illuminate\Support\Facades\Auth;
 
 class ProfilController extends Controller
 {
     public function show()
     {
         // Logika untuk menampilkan form profil
-        return view('profile.show');
+        $user=Auth::user();
+        dd($user);
+        $peserta = Peserta::where('user_id','=',$user['id'])->first();
+        return view('profile.show', ['peserta'=>$peserta]);
     }
-
+    
     public function store(Request $request)
     {
         // Validasi form
@@ -31,7 +38,7 @@ class ProfilController extends Controller
         ]);
 
         // Simpan data profil
-        $profile = new Profile(); // Menggunakan model Profil
+        $profile = new Profile(); // Menggunakan model Profile
         $profile->nama = $request->nama;
         $profile->lembaga_pendidikan = $request->lembaga_pendidikan;
         $profile->opd = $request->opd;
@@ -42,13 +49,19 @@ class ProfilController extends Controller
         $profile->no_telepon_pembimbing = $request->no_telepon_pembimbing;
 
         // Simpan laporan akhir dan sertifikat
-        $laporanPath = $request->file('laporan_akhir')->store('laporan');
-        $sertifikatPath = $request->file('sertifikat')->store('sertifikat');
-        $profile->laporan_akhir = $laporanPath;
-        $profile->sertifikat = $sertifikatPath;
+        if ($request->hasFile('laporan_akhir')) {
+            $laporanPath = $request->file('laporan_akhir')->store('laporan');
+            $profile->laporan_akhir = $laporanPath;
+        }
+
+        if ($request->hasFile('sertifikat')) {
+            $sertifikatPath = $request->file('sertifikat')->store('sertifikat');
+            $profile->sertifikat = $sertifikatPath;
+        }
 
         $profile->save();
 
         return redirect('/profile')->with('success', 'Profil berhasil disimpan!');
     }
 }
+

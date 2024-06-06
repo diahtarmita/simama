@@ -8,7 +8,7 @@
 <body class="container">
     <div class="container border p-4 bg-primary text-white">
         @section('header')
-        <h3>Berkenalan Dengan Laravel Blade</h3>
+        <h3>OPD</h3>
         @show
     </div>
     <div class="container px-4 py-2">

@@ -26,14 +26,13 @@ class OpdController extends AdminController
     {
         $grid = new Grid(new Opd());
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // Remove the default id filter
             $filter->disableIdFilter();
-        
+
             // Add a column filter
-            $filter->like('nama','OPD');
-        
+            $filter->like('nama', 'OPD');
         });
 
         $grid->column('nama', __('Nama OPD'));

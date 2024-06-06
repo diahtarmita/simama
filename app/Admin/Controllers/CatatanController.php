@@ -30,13 +30,13 @@ class CatatanController extends AdminController
     {
         $grid = new Grid(new Catatan());
 
-        $grid->column('id', __('Id'));
-        $grid->column('nama', __('Nama'));
+        $grid->number('No')->display(function ($value, $column) {
+            return $column->getRowNumber();
+        });
+
+        $grid->column('users.name', __('Nama'));
         $grid->column('tanggal', __('Tanggal'));
         $grid->column('uraian_kegiatan', __('Uraian kegiatan'));
-        $grid->column('lemdik_id', __('Lemdik id'));
-        $grid->column('opd_id', __('Opd id'));
-        $grid->column('bidang_id', __('Bidang id'));
         $grid->column('disetujui', __('Disetujui'));
 
         return $grid;
@@ -56,9 +56,6 @@ class CatatanController extends AdminController
         $show->field('nama', __('Nama'));
         $show->field('tanggal', __('Tanggal'));
         $show->field('uraian_kegiatan', __('Uraian kegiatan'));
-        $show->field('lemdik_id', __('Lemdik id'));
-        $show->field('opd_id', __('Opd id'));
-        $show->field('bidang_id', __('Bidang id'));
         $show->field('disetujui', __('Disetujui'));
 
         return $show;
@@ -73,28 +70,18 @@ class CatatanController extends AdminController
     {
         $form = new Form(new Catatan());
 
-        $form->text('nama', __('Nama'));
+        // $form->text('nama', __('Nama'));
         $form->date('tanggal', __('Tanggal'))->default(date('Y-m-d'));
         $form->text('uraian_kegiatan', __('Uraian kegiatan'));
 
-        $daftarlemdik = Lemdik::all()->pluck('lemdik', 'email','alamat','id');
-        $form->select('lemdik_id', __('Lemdik id'))->options($daftarlemdik);
-
-        $daftaropd = Opd::all()->pluck('nama', 'id');
-        $form->select('opd_id', __('Opd id'))->options($daftaropd);
-        
-        $daftarbidang = Bidang::all()->pluck('nama', 'id', 'opd_id');
-        $form->select('bidang_id', __('Bidang'))->options($daftarbidang);
-
-        $form->checkbox('disetujui', __('Disetujui'))->options(['1' => 'Setuju'])->default('1');
+        $states = [
+            'on'  => ['value' => 1, 'text' => 'disetujui', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => 'belum disetujui', 'color' => 'danger'],
+        ];
+        $form->switch('disetujui', 'Disetujui')->states($states);
 
         return $form;
 
 
-    }
-    public function create(Content $content)
-    {
-        $ch = Catatan::all();
-        return view('catatan.create', compact('opd'));
     }
 }

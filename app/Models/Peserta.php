@@ -9,6 +9,19 @@ class Peserta extends Model
 {
     use HasFactory;
     protected $table = 'Peserta';
+    protected $fillable = [
+        'user_id',
+        'nama',
+        'lemdik_id',
+        'opd_id',
+        'bidang_id',
+        'judul_proyek',
+        'no_telp_peserta',
+        'pembimbing_lemdik',
+        'no_telp_pembimbing',
+        'laporan_akhir',
+        'sertifikat'
+    ];
     public $timestamps = false;
 
     public function opd()

@@ -9,5 +9,10 @@ class Catatan extends Model
 {
     use HasFactory;
     protected $table = 'catatan';
+    protected $fillable = ['tanggal', 'uraian_kegiatan'];
     public $timestamps = false;
+
+    public function users(){
+        return $this->belongsTo(User::class, 'peserta_id');
+    }
 }
