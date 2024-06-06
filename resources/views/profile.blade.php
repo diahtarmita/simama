@@ -18,7 +18,7 @@
                     </div>
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
-                            <div>{{$error}}</div>
+                            <div>{{ $error }}</div>
                         @endforeach
                     @endif
                     <form action="/profile" method="POST">
@@ -29,7 +29,7 @@
                                 <label class="labels">Nama Lengkap</label>
                                 <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap"
                                     value="{{ $peserta['nama'] }}">
-                                    
+
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -39,9 +39,20 @@
                                     placeholder="Masukkan No HP " value="{{ $peserta['no_telp_peserta'] }}">
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Alamat Email</label>
-                                <input type="text" class="form-control" name="email" placeholder="Alamat Email"
-                                    value="{{ $peserta['email'] }}">
+                                <label class="labels">Email</label>
+                                <input type="text" class="form-control" name="email" placeholder="Alamat Email" value="{{ $peserta['email'] }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">Jenis Peserta</label>
+                                <select name="jenis_id" class="form-control">
+                                    <option value="" disabled>-Pilih-</option>
+                                    @foreach ($jeniss as $jenis)
+                                        <option value="{{ $jenis->id }}"
+                                            {{ $peserta['jenis_id'] == $jenis->id ? 'selected' : '' }}>{{ $jenis->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Judul Proyek</label>
@@ -51,7 +62,8 @@
                             <div class="col-md-12">
                                 <label class="labels">Nama Pembimbing Lembaga Pendidikan</label>
                                 <input type="text" class="form-control" name="pembimbing_lemdik"
-                                    placeholder="Nama Pembimbing Lembaga Pendidikan" value="{{ $peserta['pembimbing_lemdik'] }}">
+                                    placeholder="Nama Pembimbing Lembaga Pendidikan"
+                                    value="{{ $peserta['pembimbing_lemdik'] }}">
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">No telepon Pembimbing</label>
@@ -60,14 +72,15 @@
                             </div>
                         </div>
                 </div>
-
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="labels">OPD</label>
                         <select name="opd_id" class="form-control" onchange="gantiDaftarBidang()" id="selectopd">
                             <option value="" disabled {{ old('opd') ? '' : 'selected' }}>-Pilih-</option>
                             @foreach ($opds as $opd)
-                                  <option value="{{ $opd->id }}" {{ (old('opd_id') ?? session('opd_id')) == $opd->id ? 'selected' : '' }}>{{ $opd->nama }}</option>
+                                <option value="{{ $opd->id }}"
+                                    {{ (old('opd_id') ?? session('opd_id')) == $opd->id ? 'selected' : '' }}>
+                                    {{ $opd->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -82,7 +95,9 @@
                         <select name="lemdik_id" class="form-control">
                             <option value="" disabled>-Pilih-</option>
                             @foreach ($lemdiks as $lemdik)
-                                <option value="{{ $lemdik->id }}" {{ $peserta['lemdik_id'] == $lemdik->id ? 'selected' : '' }}>{{ $lemdik->lemdik }}</option>
+                                <option value="{{ $lemdik->id }}"
+                                    {{ $peserta['lemdik_id'] == $lemdik->id ? 'selected' : '' }}>{{ $lemdik->lemdik }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -114,7 +129,7 @@
             selectbidang.length = 1; // clear options but keep the placeholder
             @foreach ($bidangs as $bidang)
                 if ({{ $bidang->opd_id }} == opd) {
-                    let selected = ({{$peserta->bidang_id}} == {{$bidang->id}}) ? true : false;
+                    let selected = ({{ $peserta->bidang_id }} == {{ $bidang->id }}) ? true : false;
                     let option = new Option("{{ $bidang->nama }}", {{ $bidang->id }}, false, selected);
                     selectbidang.add(option);
                 }

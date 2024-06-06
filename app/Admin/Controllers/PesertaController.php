@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Bidang;
 use App\Models\Lemdik;
 use App\Models\Opd;
+use App\Models\Jenis;
 use App\Models\Peserta;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -46,7 +47,9 @@ class PesertaController extends AdminController
         $grid->column('nama', __('Nama'));
         $grid->column('lemdik.lemdik',__('Lembaga Pendidikan'));
         $grid->column('opd.nama', __('OPD'));
+        $grid->column('jenis', __('Jenis'));
         $grid->column('bidang.nama', __('Bidang'));
+        $grid->column('email',__('Email'));
         $grid->column('judul_proyek', __('Judul proyek'));
         $grid->column('no_telp_peserta', __('No telp peserta'));
         $grid->column('pembimbing_lemdik', __('Pembimbing lemdik'));
@@ -71,6 +74,8 @@ class PesertaController extends AdminController
         $show->field('lemdik_id', __('Lemdik'));
         $show->field('opd_id', __('OPD'));
         $show->field('bidang_id', __('Bidang'));
+        $show->field('email', __('Email'));
+        $show->field('jenis_id', __('Jenis'));
         $show->field('judul_proyek', __('Judul proyek'));
         $show->field('no_telp_peserta', __('No telp peserta'));
         $show->field('pembimbing_lemdik', __('Pembimbing lemdik'));
@@ -93,8 +98,11 @@ class PesertaController extends AdminController
         $form->select('lemdik_id', __('Lembaga Pendidikan'))->options($daftarlemdik);
         $daftaropd = Opd::all()->pluck('nama','id');
         $form->select('opd_id', __('OPD'))->options($daftaropd)->load('bidang_id', '/admin/api/bidang_id');
+        $daftarjenis = Jenis::all()->pluck('nama','id');
+        $form->select('jenis_id', __('Jenis'))->options($daftarjenis);
         $daftarbidang = Bidang::all()->pluck('nama','id', 'opd_id');
         $form->select('bidang_id', __('Bidang'))->options($daftarbidang);
+        $form->text('email', __('Email'));
         $form->text('judul_proyek', __('Judul proyek'));
         $form->text('no_telp_peserta', __('No telp peserta'));
         $form->text('pembimbing_lemdik', __('Pembimbing lemdik'));

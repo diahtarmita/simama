@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Opd;
+use App\Models\Jenis;
 use App\Models\Lemdik;
 use App\Models\Bidang;
 use App\Models\Peserta;
@@ -19,13 +20,16 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
+        $email = $user->email;
+
         //ambil semua opd, lemdik, bidang
         $opds = Opd::all();
         $lemdiks = Lemdik::all();
         $bidangs = Bidang::all();
+        $jeniss = Jenis::all();
         $peserta = Peserta::where('user_id', '=', $user['id'])->first();
 
-        return view('profile', ['peserta' => $peserta, 'opds' => $opds, 'lemdiks' => $lemdiks, 'bidangs' => $bidangs]); //tambahi
+        return view('profile', ['peserta' => $peserta, 'opds' => $opds, 'lemdiks' => $lemdiks, 'bidangs' => $bidangs, 'jeniss' => $jeniss]); //tambahi
     }
 
 
@@ -38,19 +42,22 @@ class ProfileController extends Controller
             'lemdik_id' => 'required|string|max:255',
             'opd_id' => 'required|string|max:255',
             'bidang_id' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'jenis' => 'required|string|max:255',
             'judul_proyek' => 'required|string|max:255',
             'no_telp_peserta' => 'required|numeric',
             'pembimbing_lemdik' => 'required|string|max:255',
             'no_telp_pembimbing' => 'required|numeric',
         ]);
-
+        
         $request->session()->put('opd_id', $validatedData['opd_id']);
        
+        
         
         // Simpan data profil
         $user = Auth::user();
         $peserta = Peserta::where('user_id', $user->id)->first();
-
+        
         if ($peserta) {
             // Jika peserta sudah ada, perbarui data
             $peserta->update($validatedData);

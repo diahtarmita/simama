@@ -26,13 +26,14 @@ class ProfilController extends Controller
         // Validasi form
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
-            'lembaga_pendidikan' => 'required|string|max:255',
-            'opd' => 'required|string|max:255',
-            'bidang' => 'required|string|max:255',
+            'lemdik_id' => 'required|string|max:255',
+            'opd_id' => 'required|string|max:255',
+            'bidang_id' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
             'judul_proyek' => 'required|string|max:255',
-            'no_telepon' => 'required|numeric',
-            'nama_pembimbing' => 'required|string|max:255',
-            'no_telepon_pembimbing' => 'required|numeric',
+            'no_telp_peserta' => 'required|numeric',
+            'pembimbing_lemdik' => 'required|string|max:255',
+            'no_telp_pembimbing' => 'required|numeric',
             'laporan_akhir' => 'required|mimes:pdf|max:2048',
             'sertifikat' => 'required|mimes:pdf|max:2048',
         ]);
@@ -40,13 +41,15 @@ class ProfilController extends Controller
         // Simpan data profil
         $profile = new Profile(); // Menggunakan model Profile
         $profile->nama = $request->nama;
-        $profile->lembaga_pendidikan = $request->lembaga_pendidikan;
-        $profile->opd = $request->opd;
-        $profile->bidang = $request->bidang;
+        $profile->lemdik_id = $request->lemdik_id;
+        $profile->opd_id = $request->opd_id;
+        $profile->bidang_id = $request->bidang_id;
+        $profile->email = $request->email;
+        $profile->jenis_id = $request->jenis_id;
         $profile->judul_proyek = $request->judul_proyek;
-        $profile->no_telepon = $request->no_telepon;
-        $profile->nama_pembimbing = $request->nama_pembimbing;
-        $profile->no_telepon_pembimbing = $request->no_telepon_pembimbing;
+        $profile->no_telp_peserta = $request->no_telp_peserta;
+        $profile->pembimbing_lemdik = $request->pembimbing_lemdik;
+        $profile->no_telp_pembimbing = $request->no_telp_pembimbing;
 
         // Simpan laporan akhir dan sertifikat
         if ($request->hasFile('laporan_akhir')) {
