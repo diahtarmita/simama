@@ -33,7 +33,6 @@ class CatatanController extends AdminController
         $grid->number('No')->display(function ($value, $column) {
             return $column->getRowNumber();
         });
-
         $grid->column('users.name', __('Nama'));
         $grid->column('tanggal', __('Tanggal'));
         $grid->column('uraian_kegiatan', __('Uraian kegiatan'));
@@ -52,7 +51,7 @@ class CatatanController extends AdminController
     {
         $show = new Show(Catatan::findOrFail($id));
 
-        $show->field('id', __('Id'));
+        $show->field('id', __('No'));
         $show->field('nama', __('Nama'));
         $show->field('tanggal', __('Tanggal'));
         $show->field('uraian_kegiatan', __('Uraian kegiatan'));

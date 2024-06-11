@@ -1,6 +1,8 @@
 <?php
 
+
 use App\Http\Controllers\CatatanHarianController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use Encore\Admin\Grid\Displayers\DropdownActions;
@@ -15,14 +17,18 @@ use Encore\Admin\Grid\Displayers\DropdownActions;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home', function () {
-    return view('home');
-})->middleware('auth');
+// Route::get('/home', function () {
+//     return view('home');
+// })->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+
+//Route::get('/home/{id}', [HomeController::class, 'show']);
+
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
 Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store')->middleware('auth');
 //Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save')->middleware('auth');
-
+Route::get('/download-sertifikat/{id}', [ProfileController::class, 'downloadSertifikat'])->name('download.sertifikat');
 //Rute untuk menampilkan form registrasi
 //Route::get('/register', [ProfileController::class, 'showRegistrationForm'])->name('register');
 

@@ -34,28 +34,29 @@ class PesertaController extends AdminController
 
         //$grid->filter(function($filter){
 
-            // Remove the default id filter
-            // $filter->disableIdFilter();
-        
-            // Add a column filter
-            // $filter->like('nama','nama');
-            // $filter->like('opd.nama','OPD');
-        
+        // Remove the default id filter
+        // $filter->disableIdFilter();
+
+        // Add a column filter
+        // $filter->like('nama','nama');
+        // $filter->like('opd.nama','OPD');
+
         //});
 
         $grid->column('id', __('No'));
         $grid->column('nama', __('Nama'));
-        $grid->column('lemdik.lemdik',__('Lembaga Pendidikan'));
+        $grid->column('lemdik.lemdik', __('Lembaga Pendidikan'));
         $grid->column('opd.nama', __('OPD'));
-        $grid->column('jenis', __('Jenis'));
+        $grid->column('jenis.nama', __('Jenis'));
         $grid->column('bidang.nama', __('Bidang'));
-        $grid->column('email',__('Email'));
+        $grid->column('email', __('Email'));
         $grid->column('judul_proyek', __('Judul proyek'));
         $grid->column('no_telp_peserta', __('No telp peserta'));
         $grid->column('pembimbing_lemdik', __('Pembimbing lemdik'));
         $grid->column('no_telp_pembimbing', __('No telp pembimbing'));
         $grid->column('laporan_akhir', __('Laporan Akhir'));
-    
+        $grid->column('sertifikat', __('Sertifikat'));
+
         return $grid;
     }
 
@@ -81,6 +82,7 @@ class PesertaController extends AdminController
         $show->field('pembimbing_lemdik', __('Pembimbing lemdik'));
         $show->field('no_telp_pembimbing', __('No telp pembimbing'));
         $show->field('laporan_akhir', __('Laporan Akhir'));
+        $show->field('sertifikat', __('Sertifikat'));
         return $show;
     }
 
@@ -94,13 +96,13 @@ class PesertaController extends AdminController
         $form = new Form(new Peserta());
 
         $form->text('nama', __('Nama'));
-        $daftarlemdik = Lemdik::all()->pluck('lemdik','id');
+        $daftarlemdik = Lemdik::all()->pluck('lemdik', 'id');
         $form->select('lemdik_id', __('Lembaga Pendidikan'))->options($daftarlemdik);
-        $daftaropd = Opd::all()->pluck('nama','id');
+        $daftaropd = Opd::all()->pluck('nama', 'id');
         $form->select('opd_id', __('OPD'))->options($daftaropd)->load('bidang_id', '/admin/api/bidang_id');
-        $daftarjenis = Jenis::all()->pluck('nama','id');
+        $daftarjenis = Jenis::all()->pluck('nama', 'id');
         $form->select('jenis_id', __('Jenis'))->options($daftarjenis);
-        $daftarbidang = Bidang::all()->pluck('nama','id', 'opd_id');
+        $daftarbidang = Bidang::all()->pluck('nama', 'id', 'opd_id');
         $form->select('bidang_id', __('Bidang'))->options($daftarbidang);
         $form->text('email', __('Email'));
         $form->text('judul_proyek', __('Judul proyek'));
@@ -108,6 +110,7 @@ class PesertaController extends AdminController
         $form->text('pembimbing_lemdik', __('Pembimbing lemdik'));
         $form->text('no_telp_pembimbing', __('No telp pembimbing'));
         $form->file('laporan_akhir', __('Laporan Akhir'))->rules('mimes:pdf');
+        $form->file('sertifikat', __('Sertifikat'));
 
         return $form;
     }
@@ -118,4 +121,22 @@ class PesertaController extends AdminController
 
         return Bidang::where('opd_id', $opd_id)->get(['id', DB::raw('nama as text')]); //untuk mengambil data bidang berdasarkan OPD yg dipilih
     }
+
+    //download
+    // public function downloadFile($sertifikatId)
+    // {
+    //     $sertifikat = Peserta::findOrFail($sertifikatId);
+
+    //     // Periksa apakah file telah disetujui
+    //     if ($sertifikat->disetujui == 1) {
+    //         // Ambil path file dari database
+    //         $sertifikatPath = $sertifikat->path;
+
+    //         // Lakukan operasi unduh file
+    //         return response()->download(storage_path('app/' . $sertifikatPath));
+    //     } else {
+    //         // Jika file belum disetujui, kembalikan ke halaman sebelumnya atau tampilkan pesan kesalahan
+    //         return back()->with('error', 'File belum disetujui.');
+    //     }
+    // }
 }

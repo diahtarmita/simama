@@ -15,6 +15,8 @@ class Peserta extends Model
         'lemdik_id',
         'opd_id',
         'bidang_id',
+        'email',
+        'jenis_id',
         'judul_proyek',
         'no_telp_peserta',
         'pembimbing_lemdik',
@@ -37,5 +39,10 @@ class Peserta extends Model
     public function lemdik()
     {
         return $this->belongsTo(Lemdik::class); //untuk memanggil data lemdik
+    }
+
+    public function jenis()
+    {
+        return $this->belongsTo(Jenis::class); //untuk memanggil data lemdik
     }
 }

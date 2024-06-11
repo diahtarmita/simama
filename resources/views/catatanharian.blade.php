@@ -10,12 +10,12 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">id</th>
-            <th scope="col">peserta</th>
-            <th scope="col">tanggal</th>
-            <th scope="col">uraian kegiatan</th>
-            <th scope="col">disetujui</th>
-            <th scope="col">aksi</th>
+            <th scope="col">No</th>
+            <th scope="col">Peserta</th>
+            <th scope="col">Tanggal</th>
+            <th scope="col">Uraian Kegiatan</th>
+            <th scope="col">Disetujui</th>
+            <th scope="col">Aksi</th>
         </tr>
     </thead>
     <tbody>

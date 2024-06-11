@@ -14,11 +14,21 @@ class CatatanHarianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     $totalCatatan = Catatan::count();
+    //     $ch = Catatan::with('users')->where('peserta_id',Auth::id())->get(); //nanti filter sesuai siapa yang login
+    //     return view('catatanharian', ['ch' => $ch, 'totalCatatan' => $totalCatatan]);
+    // }
+
     public function index()
     {
-        $ch = Catatan::with('users')->where('peserta_id',Auth::id())->get(); //nanti filter sesuai siapa yang login
-        return view('catatanharian', ['ch' => $ch]);
+        $tc = Catatan::count();
+        //dd( $tc );
+        $ch = Catatan::with('users')->where('peserta_id', Auth::id())->get(); // nanti filter sesuai siapa yang login
+        return view('catatanharian', ['ch' => $ch, 'tc' => $tc]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +53,7 @@ class CatatanHarianController extends Controller
             'uraian_kegiatan' => 'required|string|max:255',
         ]);
 
-        $peserta = Peserta::where('user_id','=', Auth::user()->id)->first();
+        $peserta = Peserta::where('user_id', '=', Auth::user()->id)->first();
         //dd($peserta); ini contoh debugging, untuk melihat isi sebuah variable atau object
 
         $catatan = new Catatan();

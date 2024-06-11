@@ -31,7 +31,7 @@ return [
     'disks' => [
         'admin' => [
             'driver' => 'local', // Ganti driver dengan yang sesuai dengan kebutuhan Anda
-            'root' => storage_path('app/admin'), // Ganti root dengan lokasi penyimpanan yang diinginkan
+            'root' => storage_path('app'), // Ganti root dengan lokasi penyimpanan yang diinginkan
         ],
         
 
