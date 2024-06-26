@@ -55,6 +55,5 @@ Route::get('/logout', function () {
 })->name('logout')->middleware('auth');
 
 use App\Http\Controllers\OpdController;
+
 Route::resource('opd', OpdController::class);
-
-

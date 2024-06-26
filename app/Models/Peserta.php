@@ -22,7 +22,8 @@ class Peserta extends Model
         'pembimbing_lemdik',
         'no_telp_pembimbing',
         'laporan_akhir',
-        'sertifikat'
+        'sertifikat',
+        'image',
     ];
     public $timestamps = false;
 

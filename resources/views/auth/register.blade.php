@@ -14,6 +14,7 @@
       <h1>REGISTER</h1>
       <div class="input-box">
         <input type="text" name="name" value="{{old('name') }}" class="@error('name') is-invalid @enderror" placeholder="Full Name" required>
+        <p>* nama lengkap dan gelar</p>
       </div>
       @error('name')
       <div class="alert alert-danger mt-2">{{ $message }}</div>

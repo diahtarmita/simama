@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'no_telp_peserta' => 'required|numeric',
             'pembimbing_lemdik' => 'required|string|max:255',
             'no_telp_pembimbing' => 'required|numeric',
-            'laporan_akhir' => 'nullable|string|max:255', // Menambah 'nullable' agar saat user ingin melakukan perubahan data profile, user tidak diharuskan mengisi inputan laporan_akhir by Arvin
+            'laporan_akhir' => 'nullable|max:255', // Menambah 'nullable' agar saat user ingin melakukan perubahan data profile, user tidak diharuskan mengisi inputan laporan_akhir
             'sertifikat' => 'string|max:255',
         ]);
         
@@ -74,9 +74,15 @@ class ProfileController extends Controller
 
 
         // Simpan laporan akhir dan sertifikat
-        //$laporanPath = $request->file('laporan_akhir')->store('laporan');
+        // $laporanPath = $request->file('laporan_akhir')->store('files');
         //$sertifikatPath = $request->file('sertifikat')->store('sertifikat');
-        //$profile->laporan_akhir = $laporanPath;
+        // $peserta->laporan_akhir = $laporanPath;
+
+        if ($request->hasFile('laporan_akhir')) {
+            $laporanPath = $request->file('laporan_akhir')->store('files');
+            $peserta->laporan_akhir = $laporanPath;
+        }
+
         //$profile->sertifikat = $sertifikatPath;
 
         $peserta->save();

@@ -123,20 +123,20 @@ class PesertaController extends AdminController
     }
 
     //download
-    // public function downloadFile($sertifikatId)
-    // {
-    //     $sertifikat = Peserta::findOrFail($sertifikatId);
+    public function downloadFile($sertifikatId)
+    {
+        $sertifikat = Peserta::findOrFail($sertifikatId);
 
-    //     // Periksa apakah file telah disetujui
-    //     if ($sertifikat->disetujui == 1) {
-    //         // Ambil path file dari database
-    //         $sertifikatPath = $sertifikat->path;
+        // Periksa apakah file telah disetujui
+        if ($sertifikat->disetujui == 1) {
+            // Ambil path file dari database
+            $sertifikatPath = $sertifikat->path;
 
-    //         // Lakukan operasi unduh file
-    //         return response()->download(storage_path('app/' . $sertifikatPath));
-    //     } else {
-    //         // Jika file belum disetujui, kembalikan ke halaman sebelumnya atau tampilkan pesan kesalahan
-    //         return back()->with('error', 'File belum disetujui.');
-    //     }
-    // }
+            // Lakukan operasi unduh file
+            return response()->download(storage_path('app/' . $sertifikatPath));
+        } else {
+            // Jika file belum disetujui, kembalikan ke halaman sebelumnya atau tampilkan pesan kesalahan
+            return back()->with('error', 'File belum disetujui.');
+        }
+    }
 }

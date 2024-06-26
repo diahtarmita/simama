@@ -36,7 +36,12 @@ class CatatanController extends AdminController
         $grid->column('users.name', __('Nama'));
         $grid->column('tanggal', __('Tanggal'));
         $grid->column('uraian_kegiatan', __('Uraian kegiatan'));
-        $grid->column('disetujui', __('Disetujui'));
+
+        $states = [
+            'on'  => ['value' => 1, 'text' => 'disetujui', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => 'belum disetujui', 'color' => 'danger'],
+        ];
+        $grid->column('disetujui', __('Disetujui'))->switch($states);
 
         return $grid;
     }

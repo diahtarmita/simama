@@ -30,6 +30,7 @@
             <td>{{ $c['tanggal'] }}</td>
             <td>{{ $c['uraian_kegiatan'] }}</td>
             <td>
+                
                 <input type="checkbox" disabled {{ $c['disetujui'] == 1 ? 'checked' : '' }}>
             </td>
             <td>{{ $c['aksi'] }}

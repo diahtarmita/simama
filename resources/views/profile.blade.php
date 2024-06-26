@@ -26,11 +26,11 @@
                             <div class="alert alert-danger">{{ $error }}</div>
                         @endforeach
                     @endif
-                    <form action="/profile" method="POST">
+                    <form action="/profile" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{ $peserta->id }}">
                         <div class="row mt-2">
-                            <div class="col-md-12"> {{-- Change class from 'col-md-6' to 'col-md-12' by Arvin --}}
+                            <div class="col-md-12"> {{-- Change class from 'col-md-6' to 'col-md-12' --}}
                                 <label class="labels"><b>Nama Lengkap</b></label>
                                 <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap"
                                     value="{{ old('nama', $peserta->nama) }}" readonly>
@@ -41,7 +41,8 @@
                                 <label class="labels"><b>Nomor Handphone</b></label>
                                 <input type="text" class="form-control" name="no_telp_peserta"
                                     placeholder="Masukkan No HP "
-                                    value="{{ old('no_telp_peserta', $peserta->no_telp_peserta) }}" maxlength="13"> {{-- add 'maxlength' for limit the input by arvin --}}
+                                    value="{{ old('no_telp_peserta', $peserta->no_telp_peserta) }}" maxlength="13">
+                                {{-- add 'maxlength' for limit the input --}}
                             </div>
                             <div class="col-md-6">
                                 <label class="labels"><b>Email</b></label>
@@ -75,16 +76,15 @@
                                 <label class="labels"><b>No telepon Pembimbing Lembaga Pendidikan</b></label>
                                 <input type="text" class="form-control" name="no_telp_pembimbing"
                                     placeholder="No Telepon Pembimbing"
-                                    value="{{ old('no_telp_pembimbing', $peserta->no_telp_pembimbing) }}" maxlength="13"> {{-- add 'maxlength' for limit the input by arvin --}}
+                                    value="{{ old('no_telp_pembimbing', $peserta->no_telp_pembimbing) }}" maxlength="13">
+                                {{-- add 'maxlength' for limit the input --}}
                             </div>
 
                             <div class="row mt-1">
                                 <div class="col-md-12">
                                     <label class="labels"><b>OPD</b></label>
-                                    <select name="opd_id" class="form-control" onchange="gantiDaftarBidang()"
-                                        id="selectopd">
-                                        <option value="" disabled {{ old('opd_id') ? '' : 'selected' }}>-Pilih-
-                                        </option>
+                                    <select name="opd_id" class="form-control" onchange="gantiDaftarBidang()" id="selectopd">
+                                        <option value="" disabled {{ old('opd_id') ? '' : 'selected' }}>-Pilih-</option>
                                         @foreach ($opds as $opd)
                                             <option value="{{ $opd->id }}"
                                                 {{ old('opd_id', $peserta->opd_id) == $opd->id ? 'selected' : '' }}>
@@ -96,8 +96,7 @@
                                     <div class="col-md-12">
                                         <label class="labels"><b>Bidang</b></label>
                                         <select name="bidang_id" class="form-control" id="selectbidang">
-                                            <option value="" disabled {{ $peserta->bidang_id ? '' : 'selected' }}>
-                                                -Pilih-</option>
+                                            <option value="" disabled {{ $peserta->bidang_id ? '' : 'selected' }}>-Pilih-</option>
                                         </select>
                                     </div>
                                     <div class="mt-1">
@@ -119,6 +118,10 @@
                                         <div class="col-md-12">
                                             <label for="upload" class="form-label"><b>Upload Laporan Akhir</b></label>
                                             <div class="mt-1">
+                                                @if($peserta->laporan_akhir)
+                                                {{-- <embed type="application/x-google-chrome-pdf" src="chrome-extension://mhjfbmdgcfjbbpaeojofohoefgiehjai/81dc5501-06ce-4b1b-bdb4-063932d5e81f" original-url="{{asset("storage/files/".$peserta->laporan_akhir)}}" background-color="4283586137" javascript="allow"> --}}
+                                                    <embed type="application/pdf" src="{{asset("storage/".str_replace(' ','%20', $peserta->laporan_akhir))}}#scrollbar=0&view=Fit" style="width:200px;height:225px;" background-color="4283586137" javascript="allow">
+                                                @endif
                                                 <input class="form-control" type="file" id="upload"
                                                     name="laporan_akhir" multiple>
                                             </div>
@@ -158,14 +161,14 @@
             let selectbidang = document.getElementById('selectbidang');
 
             // Set the old value for bidang if it exists
-            let oldBidang = {{ $peserta->bidang_id?? '' }};
+            let oldBidang = {{ $peserta->bidang_id ?? 1 }};
 
             selectbidang.length = 1; // clear options but keep the placeholder
             @foreach ($bidangs as $bidang)
                 if ({{ $bidang->opd_id }} == opd) {
                     //Logika percabangan untuk memastikan variabel "$peserta->bidang_id" memiliki value ;)
                     @if ($peserta->bidang_id)
-                        let selected = ({{$peserta->bidang_id}} == {{ $bidang->id }}) ? true : false;
+                        let selected = ({{ $peserta->bidang_id }} == {{ $bidang->id }}) ? true : false;
                         let option = new Option("{{ $bidang->nama }}", {{ $bidang->id }}, false, selected);
                     @else
                         let option = new Option("{{ $bidang->nama }}", {{ $bidang->id }});
@@ -175,7 +178,7 @@
                 }
             @endforeach
         }
-        
+
         if (oldBidang) {
             $('#selectbidang').val(oldBidang);
         }
