@@ -46,4 +46,8 @@ class Peserta extends Model
     {
         return $this->belongsTo(Jenis::class); //untuk memanggil data lemdik
     }
+    public function catatan()
+    {
+        return $this->hasMany(Catatan::class);
+    }
 }

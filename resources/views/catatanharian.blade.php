@@ -19,12 +19,13 @@
         </tr>
     </thead>
     <tbody>
+        {{-- {{dd($nama)}} --}}
         @foreach ($ch as $c)
         <tr>
             <th scope="row">{{ $loop->iteration }}</th>
             <td>
-                @if(isset($c->users->name))
-                {{ $c->users->name }}
+                @if(isset($nama))
+                {{ $nama }}
                 @endif
             </td>
             <td>{{ $c['tanggal'] }}</td>

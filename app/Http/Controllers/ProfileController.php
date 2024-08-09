@@ -51,7 +51,7 @@ class ProfileController extends Controller
             'pembimbing_lemdik' => 'required|string|max:255',
             'no_telp_pembimbing' => 'required|numeric',
             'laporan_akhir' => 'nullable|max:255', // Menambah 'nullable' agar saat user ingin melakukan perubahan data profile, user tidak diharuskan mengisi inputan laporan_akhir
-            'sertifikat' => 'string|max:255',
+            'sertifikat' => 'nullable|max:255', //tania edit tadinya pake string
         ]);
         
         $request->session()->put('opd_id', $validatedData['opd_id']);
@@ -92,11 +92,13 @@ class ProfileController extends Controller
 
     public function downloadSertifikat($id)
 {
-    $peserta = Peserta::findOrFail($id);
+    $peserta = Peserta::where('user_id', $id)->get();
 
-    if ($peserta->sertifikat) {
+    // dd($peserta[0]);
+
+    if ($peserta[0]->sertifikat) {
         // Menambahkan path subdirektori jika diperlukan
-        $filePath = $peserta->sertifikat;
+        $filePath = $peserta[0]->sertifikat;
 
         //Log::info('Trying to download file at path: ' . $filePath); // Debugging
 

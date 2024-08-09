@@ -24,9 +24,10 @@ class CatatanHarianController extends Controller
     public function index()
     {
         $tc = Catatan::count();
-        //dd( $tc );
-        $ch = Catatan::with('users')->where('peserta_id', Auth::id())->get(); // nanti filter sesuai siapa yang login
-        return view('catatanharian', ['ch' => $ch, 'tc' => $tc]);
+        $peserta_id = Peserta::where('user_id', Auth::id())->get(['id', 'nama']);
+        // dd( $peserta_id );
+        $ch = Catatan::where('peserta_id', $peserta_id[0]->id)->get(); // nanti filter sesuai siapa yang login
+        return view('catatanharian', ['ch' => $ch, 'tc' => $tc, 'nama' => $peserta_id[0]->nama]);
     }
 
 
@@ -53,13 +54,14 @@ class CatatanHarianController extends Controller
             'uraian_kegiatan' => 'required|string|max:255',
         ]);
 
-        $peserta = Peserta::where('user_id', '=', Auth::user()->id)->first();
-        //dd($peserta); ini contoh debugging, untuk melihat isi sebuah variable atau object
+        $peserta_id = Peserta::where('user_id', Auth::id())->get('user_id');
+        $peserta = Peserta::where('user_id', $peserta_id[0]->user_id)->first();
+        // dd($peserta); //ini contoh debugging, untuk melihat isi sebuah variable atau object
 
         $catatan = new Catatan();
         $catatan->tanggal = $validated['tanggal'];
         $catatan->uraian_kegiatan = $validated['uraian_kegiatan'];
-        $catatan->peserta_id = $peserta['id'];
+        $catatan->peserta_id = $peserta['id']; //TANIA
         $catatan->save();
 
         return redirect('/catatanharian')->with('success', 'Catatan Harian berhasil ditambahkan');

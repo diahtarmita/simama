@@ -15,4 +15,7 @@ class Catatan extends Model
     public function users(){
         return $this->belongsTo(User::class, 'peserta_id');
     }
+    public function peserta(){
+        return $this->belongsTo(Peserta::class, 'peserta_id');
+    }
 }

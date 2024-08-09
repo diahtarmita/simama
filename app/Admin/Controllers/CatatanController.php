@@ -30,10 +30,20 @@ class CatatanController extends AdminController
     {
         $grid = new Grid(new Catatan());
 
-        $grid->number('No')->display(function ($value, $column) {
-            return $column->getRowNumber();
+        $grid->filter(function ($filter) {
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->like('peserta.nama','Nama');
         });
-        $grid->column('users.name', __('Nama'));
+
+        $grid->column('peserta.id', __('Id'));
+        // $grid->number('No')->display(function ($value, $column) {
+        //     return $column->getRowNumber();
+        // });
+        $grid->column('peserta.nama', __('Nama'));
         $grid->column('tanggal', __('Tanggal'));
         $grid->column('uraian_kegiatan', __('Uraian kegiatan'));
 
@@ -56,7 +66,7 @@ class CatatanController extends AdminController
     {
         $show = new Show(Catatan::findOrFail($id));
 
-        $show->field('id', __('No'));
+        $show->field('peserta_id', __('No')); //edit tania tadinya id saja
         $show->field('nama', __('Nama'));
         $show->field('tanggal', __('Tanggal'));
         $show->field('uraian_kegiatan', __('Uraian kegiatan'));

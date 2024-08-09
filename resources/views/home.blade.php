@@ -92,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- {{dd($peserta_id)}} --}}
                 <div class="col-12 col-md-6 mb-4 mb-lg-0 col-lg-4"> {{-- Merubah class dari "col-lg-3" -> "col-lg-4"  --}}
                     <div class="card">
                         <h5 class="card-header">Sertifikat</h5>

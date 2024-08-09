@@ -8,6 +8,7 @@ use App\Models\Opd;
 use App\Models\Peserta;
 use Illuminate\Http\Request;
 use App\Models\Profile; // Menggunakan namespace yang sesuai dengan model
+use Encore\Admin\Grid;
 use Illuminate\Support\Facades\Auth;
 
 class ProfilController extends Controller
@@ -20,6 +21,7 @@ class ProfilController extends Controller
         $peserta = Peserta::where('user_id','=',$user['id'])->first();
         return view('profile.show', ['peserta'=>$peserta]);
     }
+    
     
     public function store(Request $request)
     {

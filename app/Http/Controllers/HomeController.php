@@ -19,10 +19,11 @@ class HomeController extends Controller
         $user = Auth::user();
         //cari user yg login
         //cari data peserta dari user tersebut
-        $peserta = Peserta::where('user_id', '=', $user['id'])->get();
-        $totalCatatan = Catatan::where('peserta_id', $user['id'])->count(); //filter sesuai siapa yang login
-        $laporanAkhir = Peserta::whereNotNull('laporan_akhir')->where('laporan_akhir','!=', '')->where('id', $user['id'])->exists(); //ambil data kolom laporan_akhir dengan kondisi data bukan NULL dan bukan '', return value boolen (true/false) 
-        $sertifikat = Peserta::whereNotNull('sertifikat')->where('sertifikat','!=', '')->where('id', $user['id'])->exists(); //ambil data kolom sertifikat dengan kondisi data bukan NULL dan bukan '', return value boolen (true/false) 
+        $peserta = Peserta::where('user_id', auth()->id())->get();
+        // dd($peserta);
+        $totalCatatan = Catatan::where('peserta_id', $peserta[0]->id)->count(); //filter sesuai siapa yang login
+        $laporanAkhir = Peserta::whereNotNull('laporan_akhir')->where('laporan_akhir','!=', '')->where('user_id', $user['id'])->exists(); //ambil data kolom laporan_akhir dengan kondisi data bukan NULL dan bukan '', return value boolen (true/false) 
+        $sertifikat = Peserta::whereNotNull('sertifikat')->where('sertifikat','!=', '')->where('user_id', $user['id'])->exists(); //ambil data kolom sertifikat dengan kondisi data bukan NULL dan bukan '', return value boolen (true/false) 
         
         return view('home', compact('totalCatatan', 'peserta', 'laporanAkhir', 'sertifikat')); //titipin data peserta disini
     }
