@@ -42,7 +42,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function catatan(){
-        return $this->hasMany(Catatan::class, 'id', 'peserta_id');
-    }
 }
